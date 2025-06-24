@@ -43,6 +43,7 @@ const CustomerList = () => {
         totalLoans: 2,
         totalDue: 10225.0,
         status: "Active",
+        address: "New street, Bangalore.",
         loans: [
           {
             id: "loan-1-1",
@@ -72,6 +73,7 @@ const CustomerList = () => {
         totalLoans: 1,
         totalDue: 8380.0,
         status: "Pending",
+        address: "T-Nagar, Chennai.",
         loans: [
           {
             id: "loan-2-1",
@@ -92,6 +94,7 @@ const CustomerList = () => {
         totalLoans: 3,
         totalDue: 27480.0,
         status: "Active",
+        address: "Anna nagar, Chennai.",
         loans: [
           {
             id: "loan-3-1",
@@ -316,7 +319,7 @@ const CustomerList = () => {
                           </span>
                         </div>
                         <div className="text-sm text-gray-500">
-                          {customer.email}
+                          {customer.address}
                         </div>
                       </div>
                     </div>
@@ -331,7 +334,7 @@ const CustomerList = () => {
                       {customer.loans.slice(0, 2).map((loan, index) => (
                         <div
                           key={index}
-                          className="bg-gray-50 px-3 py-1.5 rounded-md text-xs"
+                          className="bg-green-100 px-3 py-1.5 rounded-md text-xs"
                         >
                           <div className="font-medium">
                             {formatCurrency(loan.amount)}
@@ -342,7 +345,7 @@ const CustomerList = () => {
                         </div>
                       ))}
                       {customer.loans.length > 2 && (
-                        <div className="bg-gray-100 px-3 py-1.5 rounded-md text-xs flex items-center">
+                        <div className="bg-green-200 px-3 py-1.5 rounded-md text-xs flex items-center">
                           +{customer.loans.length - 2} more
                         </div>
                       )}
@@ -401,7 +404,7 @@ const CustomerList = () => {
                           {customer.loans.map((loan) => (
                             <div
                               key={loan.id}
-                              className="grid grid-cols-1 md:grid-cols-6 gap-4 p-4"
+                              className="grid grid-cols-1 md:grid-cols-8 gap-4 p-4"
                             >
                               <div className="md:col-span-1">
                                 <div className="text-sm text-gray-500">
@@ -441,7 +444,7 @@ const CustomerList = () => {
                                   {formatCurrency(loan.totalDue)}
                                 </div>
                               </div>
-                              <div className="md:col-span-6 flex items-center justify-between pt-3 border-t">
+                              
                                 <div>
                                   <div className="text-sm text-gray-500">
                                     Status
@@ -457,7 +460,7 @@ const CustomerList = () => {
                                   </button>
                                 </div>
                               </div>
-                            </div>
+                           
                           ))}
                         </div>
                       </div>

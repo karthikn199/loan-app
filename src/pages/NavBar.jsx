@@ -44,7 +44,7 @@ const Navbar = () => {
     },
     {
       name: "Collections",
-      href: "/collections",
+      href: "/collection",
       icon: <MdPayment className="mr-2" size={18} />,
     },
     {
