@@ -6,6 +6,7 @@ import {
   FiList,
   FiLogOut,
   FiMenu,
+  FiPlus,
   FiSettings,
   FiUser,
   FiX,
@@ -16,6 +17,7 @@ import { Link, useLocation } from "react-router-dom";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -53,11 +55,34 @@ const Navbar = () => {
       icon: <FiList className="mr-2" size={18} />,
     },
     {
-      name: "Schedule",
-      href: "/schedule",
+      name: "Admin",
+      href: "/admin",
       icon: <FiCalendar className="mr-2" size={18} />,
+      children: [
+        {
+          name: "Create Company",
+          href: "/company",
+          icon: <FiPlus className="mr-2" size={14} />,
+        },
+        {
+          name: "Create User",
+          href: "/user",
+          icon: <FiPlus className="mr-2" size={14} />,
+        },
+      ],
     },
   ];
+
+  // Check if admin or any child is active
+  const isAdminActive = () => {
+    const adminItem = navItems.find((item) => item.name === "Admin");
+    if (!adminItem || !adminItem.children) return false;
+    
+    return (
+      location.pathname === adminItem.href ||
+      adminItem.children.some((child) => location.pathname === child.href)
+    );
+  };
 
   return (
     <>
@@ -82,20 +107,61 @@ const Navbar = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`flex items-center ${
-                    location.pathname === item.href
-                      ? "text-white bg-indigo-800"
-                      : "text-indigo-100 hover:bg-indigo-600"
-                  } px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200`}
-                >
-                  {item.icon}
-                  {item.name}
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                if (item.children) {
+                  return (
+                    <div
+                      key={item.name}
+                      className="relative group"
+                      onMouseEnter={() => setAdminDropdownOpen(true)}
+                      onMouseLeave={() => setAdminDropdownOpen(false)}
+                    >
+                      <button
+                        className={`flex items-center ${
+                          isAdminActive()
+                            ? "text-white bg-indigo-800"
+                            : "text-indigo-100 hover:bg-indigo-600"
+                        } px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200`}
+                      >
+                        {item.icon}
+                        {item.name}
+                      </button>
+                      
+                      {/* Admin Dropdown */}
+                      {adminDropdownOpen && (
+                        <div className="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                          {item.children.map((child) => (
+                            <Link
+                              key={child.name}
+                              to={child.href}
+                              className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                              onClick={() => setAdminDropdownOpen(false)}
+                            >
+                              {child.icon}
+                              {child.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                } else {
+                  return (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className={`flex items-center ${
+                        location.pathname === item.href
+                          ? "text-white bg-indigo-800"
+                          : "text-indigo-100 hover:bg-indigo-600"
+                      } px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200`}
+                    >
+                      {item.icon}
+                      {item.name}
+                    </Link>
+                  );
+                }
+              })}
             </nav>
 
             {/* Right Side Actions */}
@@ -150,37 +216,83 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden bg-indigo-800 shadow-2xl">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`flex items-center px-3 py-3 rounded-md text-base font-medium ${
-                    location.pathname === item.href
-                      ? "text-white bg-indigo-700"
-                      : "text-indigo-200 hover:bg-indigo-700"
-                  }`}
-                >
-                  {item.icon}
-                  {item.name}
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                if (item.children) {
+                  return (
+                    <div key={item.name}>
+                      <button
+                        onClick={() => setAdminDropdownOpen(!adminDropdownOpen)}
+                        className={`flex items-center w-full px-3 py-3 rounded-md text-base font-medium ${
+                          isAdminActive()
+                            ? "text-white bg-indigo-700"
+                            : "text-indigo-200 hover:bg-indigo-700"
+                        }`}
+                      >
+                        {item.icon}
+                        <span className="mr-2">{item.name}</span>
+                      </button>
+                      
+                      {adminDropdownOpen && (
+                        <div className="pl-6">
+                          {item.children.map((child) => (
+                            <Link
+                              key={child.name}
+                              to={child.href}
+                              onClick={() => {
+                                setIsOpen(false);
+                                setAdminDropdownOpen(false);
+                              }}
+                              className={`flex items-center px-3 py-2 rounded-md text-base font-medium ${
+                                location.pathname === child.href
+                                  ? "text-white bg-indigo-700"
+                                  : "text-indigo-200 hover:bg-indigo-700"
+                              }`}
+                            >
+                              {child.icon}
+                              {child.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                } else {
+                  return (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className={`flex items-center px-3 py-3 rounded-md text-base font-medium ${
+                        location.pathname === item.href
+                          ? "text-white bg-indigo-700"
+                          : "text-indigo-200 hover:bg-indigo-700"
+                      }`}
+                    >
+                      {item.icon}
+                      {item.name}
+                    </Link>
+                  );
+                }
+              })}
               <div className="pt-4 pb-4 px-3 border-t border-indigo-700">
                 <Link
                   to="/profile"
                   className="flex items-center px-3 py-2 rounded-md text-base font-medium text-indigo-200 hover:bg-indigo-700"
+                  onClick={() => setIsOpen(false)}
                 >
                   <FiUser className="mr-2" size={18} /> Profile
                 </Link>
                 <Link
                   to="/settings"
                   className="flex items-center px-3 py-2 rounded-md text-base font-medium text-indigo-200 hover:bg-indigo-700"
+                  onClick={() => setIsOpen(false)}
                 >
                   <FiSettings className="mr-2" size={18} /> Settings
                 </Link>
                 <Link
                   to="/logout"
                   className="flex items-center px-3 py-2 rounded-md text-base font-medium text-indigo-200 hover:bg-indigo-700"
+                  onClick={() => setIsOpen(false)}
                 >
                   <FiLogOut className="mr-2" size={18} /> Logout
                 </Link>

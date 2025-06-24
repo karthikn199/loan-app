@@ -6,6 +6,8 @@ import Navbar from "./pages/NavBar";
 import CustomersPage from "./pages/Customers";
 import Dashboard from "./pages/Dashboard";
 import Collection from "./pages/customer/Collection";
+import Company from "./pages/customer/Company";
+import UserManagement from "./pages/customer/User";
 
 const ProtectedRoute = ({ children }) => {
   const user = useSelector((state) => state.user.user);
@@ -39,6 +41,24 @@ const App = () => {
           <ProtectedRoute>
             <Navbar />
             <Collection />
+          </ProtectedRoute>
+        }
+      />
+        <Route
+        path="/company"
+        element={
+          <ProtectedRoute>
+            <Navbar />
+            <Company />
+          </ProtectedRoute>
+        }
+      />
+       <Route
+        path="/user"
+        element={
+          <ProtectedRoute>
+            <Navbar />
+            <UserManagement />
           </ProtectedRoute>
         }
       />
