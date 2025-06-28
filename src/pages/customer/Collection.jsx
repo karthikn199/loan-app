@@ -305,7 +305,7 @@ const Collection = () => {
           >
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-xl font-semibold text-gray-800">
-                Loan Details {filteredCustomers.name}
+                Loan Details
               </h2>
               <button
                 onClick={() => setSelectedCustomer(null)}
@@ -515,7 +515,7 @@ const Collection = () => {
 
         {/* Success Message */}
         {showSuccess && (
-          <div className="fixed top-30 right-6 bg-green-500 text-white px-6 py-4 rounded-xl shadow-lg flex items-center animate-fadeInUp">
+          <div className="fixed bottom-6 right-6 bg-green-500 text-white px-6 py-4 rounded-xl shadow-lg flex items-center animate-fadeInUp">
             <svg
               className="w-6 h-6 mr-3"
               fill="none"
