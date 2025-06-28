@@ -19,10 +19,11 @@ const App = () => {
     <Routes>
       <Route path="" element={<LoginPage />} />
       <Route
-        path="/home"
+        path="/dashboard"
         element={
           <ProtectedRoute>
             <Navbar />
+              <Dashboard/>
           </ProtectedRoute>
         }
       />
@@ -62,15 +63,7 @@ const App = () => {
           </ProtectedRoute>
         }
       />
-        <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Navbar />
-            <Dashboard/>
-          </ProtectedRoute>
-        }
-      />
+      
 
       
     </Routes>

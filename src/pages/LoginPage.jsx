@@ -64,7 +64,7 @@ const LoginPage = () => {
 
           localStorage.setItem("authToken", "mock-jwt-token");
           toast.success("Login successful!");
-          navigate("/home");
+          navigate("/dashboard");
         } else {
           throw new Error("Invalid credentials");
         }
@@ -89,14 +89,21 @@ const LoginPage = () => {
             <div className="mx-auto bg-gradient-to-r from-blue-600 to-indigo-700 w-16 h-16 rounded-xl flex items-center justify-center mb-4">
               <HiLockClosed className="text-white text-2xl" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-800">LoanCollect Pro</h1>
-            <p className="text-gray-500 mt-2">Secure access to your dashboard</p>
+            <h1 className="text-3xl font-bold text-gray-800">
+              LoanCollect Pro
+            </h1>
+            <p className="text-gray-500 mt-2">
+              Secure access to your dashboard
+            </p>
           </div>
 
           <form onSubmit={formik.handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Email Address
               </label>
               <div className="relative">
@@ -120,17 +127,25 @@ const LoginPage = () => {
                 />
               </div>
               {formik.touched.email && formik.errors.email && (
-                <p className="mt-1 text-sm text-red-600">{formik.errors.email}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {formik.errors.email}
+                </p>
               )}
             </div>
 
             {/* Password Field */}
             <div>
               <div className="flex justify-between items-center mb-1">
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Password
                 </label>
-                <a href="#" className="text-sm text-blue-600 hover:text-blue-500 transition">
+                <a
+                  href="#"
+                  className="text-sm text-blue-600 hover:text-blue-500 transition"
+                >
                   Forgot?
                 </a>
               </div>
@@ -166,7 +181,9 @@ const LoginPage = () => {
                 </button>
               </div>
               {formik.touched.password && formik.errors.password && (
-                <p className="mt-1 text-sm text-red-600">{formik.errors.password}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {formik.errors.password}
+                </p>
               )}
             </div>
 
@@ -180,7 +197,10 @@ const LoginPage = () => {
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-gray-700"
+              >
                 Remember me
               </label>
             </div>
@@ -224,7 +244,6 @@ const LoginPage = () => {
               </button>
             </div>
           </form>
-        
         </div>
 
         {/* Footer */}
